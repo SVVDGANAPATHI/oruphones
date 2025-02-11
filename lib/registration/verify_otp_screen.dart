@@ -12,13 +12,12 @@ class VerifyOtpScreen extends StatefulWidget {
 }
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
-
   final TextEditingController pincontroller = TextEditingController();
   int _secondsRemaining = 30;
   late Timer _timer;
-   bool _isResendEnabled = false;
+  bool _isResendEnabled = false;
 
-    @override
+  @override
   void initState() {
     super.initState();
     _startTimer();
@@ -52,6 +51,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
     _timer.cancel(); // Stop the timer when the screen is disposed
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -112,44 +112,74 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               ),
             ],
           ),
-          SizedBox(height: 70.h,),
+          SizedBox(
+            height: 70.h,
+          ),
           Pinput(
             controller: pincontroller,
             defaultPinTheme: PinTheme(
-              textStyle: Theme.of(context).textTheme.displayMedium,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.r),
-                border: Border.all(color: Color(0xFFCCCCCC,))
-              ),
-              height: 44.h,
-              width: 42.w
-            ),
+                textStyle: Theme.of(context).textTheme.displayMedium,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8.r),
+                    border: Border.all(
+                        color: Color(
+                      0xFFCCCCCC,
+                    ))),
+                height: 44.h,
+                width: 42.w),
           ),
-          SizedBox(height: 60.h,),
+          SizedBox(
+            height: 60.h,
+          ),
           Visibility(
             visible: !_isResendEnabled,
-            replacement: TextButton(onPressed:(){}, child: Text('Resend')),
-            child: Row(mainAxisAlignment: MainAxisAlignment.center,
+            replacement: TextButton(
+                onPressed: () {
+                  setState(() {
+                    _isResendEnabled = !_isResendEnabled;
+                    _startTimer();
+                  });
+                },
+                child: Text(
+                  'Resend',
+                  style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 14.sp),
+                )),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Column(
                   children: [
-                    Text('Didn’t receive OTP?',style: Theme.of(context).textTheme.bodyMedium,),
-                    SizedBox(height: 5.h,),
+                    Text(
+                      'Didn’t receive OTP?',
+                      style: Theme.of(context).textTheme.bodyMedium,
+                    ),
+                    SizedBox(
+                      height: 5.h,
+                    ),
                     Row(
                       children: [
-                        Text('Resend OTP ',style: Theme.of(context).textTheme.displayMedium?.copyWith(decoration: TextDecoration.underline),),
                         Text(
-                          'in ',
-                          style: Theme.of(context).textTheme.displayMedium),
-                       Text(_formatTime(), style: Theme.of(context).textTheme.displayMedium),
-                       Text(" sec", style: Theme.of(context).textTheme.displayMedium)
+                          'Resend OTP ',
+                          style: Theme.of(context).textTheme.displayMedium?.copyWith(decoration: TextDecoration.underline),
+                        ),
+                        Text('in ', style: Theme.of(context).textTheme.displayMedium),
+                        Text(_formatTime(), style: Theme.of(context).textTheme.displayMedium),
+                        Text(" sec", style: Theme.of(context).textTheme.displayMedium)
                       ],
                     )
                   ],
                 )
               ],
             ),
-          )
+          ),
+          SizedBox(
+            height: 50.h,
+          ),
+          ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context,'/customername');
+              },
+              child: Text('Verify OTP'))
         ],
       ),
     );

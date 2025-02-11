@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:oruphones/home/home_screen.dart';
+import 'package:oruphones/registration/customer_name_screen.dart';
 import 'package:oruphones/registration/login_screen.dart';
 import 'package:oruphones/registration/verify_otp_screen.dart';
 import 'package:oruphones/undefined_route.dart';
@@ -7,15 +9,15 @@ class AppRoutes {
   static Route onGenerateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _materialRoute(const LoginScreen()); //SplashScreen
+        return _materialRoute(const HomeScreen()); //SplashScreen
       case '/verifyotp':
         return _materialRoute(const VerifyOtpScreen());
-      // case '/HomeScreen':
-      //   return _materialRoute(const HomeScreen());
+      case '/customername':
+        return _materialRoute(const CustomerNameScreen());
       case '/login':
         return _materialRoute(const LoginScreen());
-      // case '/SignUp':
-      //   return _materialRoute(const SignUpScreen());
+      case '/homescreen':
+        return _materialRoute(const HomeScreen());
       // case '/dashboard':
       //   return _materialRoute(const DashBoard());
 

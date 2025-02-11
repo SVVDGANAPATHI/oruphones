@@ -5,7 +5,7 @@ import 'package:oruphones/app.dart';
 void main() {
    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
     statusBarColor: Colors.white,
-    statusBarIconBrightness: Brightness.dark,
+    statusBarIconBrightness: Brightness.light,
   ));
   runApp(const MyApp());
 }

@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                       ),
                       prefixIconConstraints: BoxConstraints(minWidth: 50.w),
-                      contentPadding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 10.w),
+                      contentPadding: EdgeInsets.symmetric(vertical: 15.h, horizontal: 10.w),
                       hintText: 'Mobile Number',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8.r),
