@@ -30,71 +30,71 @@ class AppTheme {
 
       hintColor: const Color(0xFF1255FE),
 
-      textTheme:  TextTheme(
+      textTheme: TextTheme(
         displayLarge: TextStyle(
-          color: const Color(0xFF1255FE),
-          fontSize: 32.sp,
-          fontFamily: 'Figtree',
-          fontWeight: FontWeight.w700,
+          color: const Color(0xFF3F3E8F),
+          fontSize: 28.sp,
+          fontFamily: 'Poppins',
+          fontWeight: FontWeight.w600,
         ),
         displayMedium: TextStyle(
-          color: const Color(0xff000000),
-          fontSize: 24.sp,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'Figtree',
+          color: const Color(0xff191919),
+          fontSize: 14.sp,
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Poppins',
         ),
         displaySmall: TextStyle(
           color: const Color(0xFFA5A5A5),
           fontSize: 20.sp,
           fontWeight: FontWeight.w700,
-          fontFamily: 'Figtree',
+          fontFamily: 'Poppins',
         ),
         bodyLarge: TextStyle(
           color: const Color(0xFF909090),
           fontSize: 16.sp,
           fontWeight: FontWeight.w500,
-          fontFamily: 'Figtree',
+          fontFamily: 'Poppins',
         ),
         bodyMedium: TextStyle(
-          color: const Color(0xFFA5A5A5),
+          color: const Color(0xFF757474),
           fontSize: 14.sp,
           fontWeight: FontWeight.w400,
-          fontFamily: 'Figtree',
+          fontFamily: 'Poppins',
         ),
         bodySmall: TextStyle(
           color: const Color(0xFF545454),
           fontSize: 12.sp,
           fontWeight: FontWeight.bold,
-          fontFamily: 'Figtree',
+          fontFamily: 'Poppins',
         ),
         headlineLarge: TextStyle(
           color: Colors.black,
           fontSize: 22.sp,
           fontWeight: FontWeight.w700,
-          fontFamily: 'Figtree',
+          fontFamily: 'Poppins',
         ),
         headlineMedium: TextStyle(
           color: const Color(0xff232323),
           fontSize: 18.sp,
           fontWeight: FontWeight.w600,
-          fontFamily: 'Figtree',
+          fontFamily: 'Poppins',
         ),
         labelLarge: TextStyle(
           color: const Color(0xFF1255FE),
           fontSize: 18.sp,
           fontWeight: FontWeight.w700,
-          fontFamily: 'Figtree',
+          fontFamily: 'Poppins',
         ),
         labelMedium: TextStyle(
           color: const Color(0xFFA6A6A6),
           fontSize: 10.sp,
           fontWeight: FontWeight.w600,
-          fontFamily: 'Figtree',
+          fontFamily: 'Poppins',
         ),
       ),
       // Dropdown menu theme
       dropdownMenuTheme: DropdownMenuThemeData(
-        inputDecorationTheme:  InputDecorationTheme(
+        inputDecorationTheme: InputDecorationTheme(
           border: OutlineInputBorder(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             borderSide: BorderSide(
@@ -112,61 +112,61 @@ class AppTheme {
             ),
           ),
         ),
-        textStyle:  TextStyle(
+        textStyle: TextStyle(
           color: Colors.black,
           fontSize: 20.sp,
           fontWeight: FontWeight.w700,
-          fontFamily: 'Figtree',
+          fontFamily: 'Poppins',
         ),
       ),
       elevatedButtonTheme: ElevatedButtonThemeData(
         style: ButtonStyle(
           textStyle: WidgetStateProperty.all(
-             TextStyle(
+            TextStyle(
               color: Colors.white,
-              fontSize: 20.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w700,
-              fontFamily: 'Figtree',
+              fontFamily: 'Poppins',
             ),
           ),
           foregroundColor: WidgetStateProperty.all(Colors.white),
-          minimumSize: WidgetStateProperty.all( Size(380.w, 60.h)),
-          maximumSize: WidgetStateProperty.all( Size(400.w, 60.h)),
-          backgroundColor: WidgetStateProperty.all(const Color(0xFF171717)),
+          minimumSize: WidgetStateProperty.all(Size(358.w, 60.h)),
+          maximumSize: WidgetStateProperty.all(Size(358.w, 60.h)),
+          backgroundColor: WidgetStateProperty.all(const Color(0xFF3F3E8F)),
           shape: WidgetStateProperty.all(
             RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(15),
+              borderRadius: BorderRadius.circular(5),
             ),
           ),
         ),
       ),
 
       inputDecorationTheme: InputDecorationTheme(
-        contentPadding: const EdgeInsets.all(21),
+        contentPadding: const EdgeInsets.all(20),
         filled: false,
         border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide:  BorderSide(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(
             width: 1.w,
-            color: const Color(0xFFEAEAEA),
+            color: const Color(0xFFCCCCCC),
           ),
         ),
-        hintStyle:  TextStyle(
-          color: const Color(0xFFEAEAEA),
+        hintStyle: TextStyle(
+          color: const Color(0xFFCCCCCC),
           fontSize: 16.sp,
-          fontWeight: FontWeight.w500,
-          fontFamily: 'Figtree',
+          fontWeight: FontWeight.w400,
+          fontFamily: 'Poppins',
         ),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide:  BorderSide(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(
             width: 1.w,
-            color: const Color(0xffA6A6A6),
+            color: const Color(0xffCCCCCC),
           ),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(15),
-          borderSide:  BorderSide(
+          borderRadius: BorderRadius.circular(5),
+          borderSide: BorderSide(
             width: 1.w,
             color: Colors.black26,
           ),
