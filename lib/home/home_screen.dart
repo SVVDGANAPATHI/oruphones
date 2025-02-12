@@ -13,7 +13,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   bool isuser = false;
-
+  int? expandedIndex;
   List<Map<String, String>> actioncards = [
     {'icon': 'assets/howtobuy.png', 'name': 'How to Buy'},
     {'icon': 'assets/howtosell.png', 'name': 'How to Sell'},
@@ -755,27 +755,30 @@ class _HomeScreenState extends State<HomeScreen> {
           return CircularProgressIndicator();
         } else {
           return SizedBox(
-           // height: 300,
+            // height: 300,
             child: ListView.separated(
               physics: NeverScrollableScrollPhysics(),
-              separatorBuilder: (context,index) => SizedBox(height: 10.h,),
+              separatorBuilder: (context, index) => SizedBox(
+                height: 10.h,
+              ),
               shrinkWrap: true,
               itemCount: state.getFaq!.faQs.length,
               itemBuilder: (context, index) {
                 return Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    border: Border.all(color: Color(0xFFE0E0E0))
-                  ),
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(10), border: Border.all(color: Color(0xFFE0E0E0))),
                   child: ExpansionTile(
                     shape: Border.all(color: Colors.transparent),
                     childrenPadding: EdgeInsets.all(10),
-                    trailing: Icon(Icons.add),
-                    title: Text( state.getFaq!.faQs[index].question),
-                    children: [
-                      Text(state.getFaq!.faQs[index].answer)
-                    ],
-                    ),
+                    trailing: index == expandedIndex ? Icon(Icons.close,color: Colors.grey,) : Icon(Icons.add),
+                    
+                    title: Text(state.getFaq!.faQs[index].question),
+                    children: [Text(state.getFaq!.faQs[index].answer)],
+                    onExpansionChanged: (value) {
+                      setState(() {
+                        expandedIndex = value ? index : null;
+                      });
+                    },
+                  ),
                 );
               },
             ),
