@@ -315,244 +315,257 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildBody(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(10.0),
-      child: SingleChildScrollView(
-        child: BlocBuilder<FaqBloc, FaqState>(
-          builder: (context, state) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TextField(
-                  decoration: InputDecoration(
-                    hintText: 'Search phones with make, model...',
-                    hintStyle: TextStyle(color: Color(0xFF707070), fontSize: 14.sp),
-                    prefixIcon: Icon(Icons.search, color: Color(0xFFFFA500)),
-                    suffixIcon: Icon(Icons.mic, color: Color(0xFF707070)),
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Color(0xFFE0E0E0)),
-                    ),
-                    enabledBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Color(0xFFE0E0E0)),
-                    ),
-                    focusedBorder: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide(color: Color(0xFFE0E0E0)),
-                    ),
-                  ),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                SizedBox(
-                  height: 36,
-                  child: ListView.separated(
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return Container(
-                          padding: EdgeInsets.all(10),
-                          decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Color(0xFFE0E0E0),
-                              ),
-                              borderRadius: BorderRadius.circular(10)),
-                          child: Center(
-                            child: Text(
-                              options[index],
-                              style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 12.sp),
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => SizedBox(
-                            width: 5.w,
-                          ),
-                      itemCount: options.length),
-                ),
-                SizedBox(
-                  height: 15.h,
-                ),
-                buildcarousel(),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Text(
-                  'What’s on your mind?',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
-                ),
-                SizedBox(
-                  height: 10,
-                ),
-                SizedBox(
-                  height: 136.h,
-                  child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          height: 110.h,
-                          width: 80.w,
-                          child: Column(
-                            children: [
-                              SizedBox(
-                                  height: 72.h,
-                                  width: 72.h,
-                                  child: Image.asset(
-                                    mindcards[index]['icon'].toString(),
-                                    fit: BoxFit.cover,
-                                  )),
-                              Text(
-                                mindcards[index]['name'].toString(),
-                                textAlign: TextAlign.center,
-                                style: TextStyle(fontSize: 12.sp, color: Colors.black),
-                              )
-                            ],
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => SizedBox(
-                            width: 10.w,
-                          ),
-                      itemCount: mindcards.length),
-                ),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          BlocBuilder<FaqBloc, FaqState>(
+            builder: (context, state) {
+              return Padding(
+                padding: const EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      'Top Brands',
-                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
-                    ),
-                    Icon(Icons.arrow_forward_ios, color: Color(0xFF525252))
-                  ],
-                ),
-                SizedBox(
-                  height: 136.h,
-                  child: ListView.separated(
-                      shrinkWrap: true,
-                      scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) {
-                        return SizedBox(
-                          height: 64.h,
-                          width: 64.w,
-                          child: CircleAvatar(
-                            backgroundColor: Color(0xFFF2F2F2),
-                            child: Image.asset(
-                              topbrands[index].toString(),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        );
-                      },
-                      separatorBuilder: (context, index) => SizedBox(
-                            width: 10.w,
-                          ),
-                      itemCount: topbrands.length),
-                ),
-                RichText(
-                    text: TextSpan(
-                        text: 'Best deals ',
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
-                        children: [
-                      TextSpan(
-                        text: 'in India',
-                        style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w500),
-                      )
-                    ])),
-                SizedBox(
-                  height: 10.h,
-                ),
-                Row(
-                  children: [
-                    Container(
-                      height: 36.h,
-                      width: 85.w,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Color(0xFFD7D7D7))),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/sort.png'),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          Text(
-                            'Sort',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          Icon(Icons.keyboard_arrow_down)
-                        ],
+                    TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Search phones with make, model...',
+                        hintStyle: TextStyle(color: Color(0xFF707070), fontSize: 14.sp),
+                        prefixIcon: Icon(Icons.search, color: Color(0xFFFFA500)),
+                        suffixIcon: Icon(Icons.mic, color: Color(0xFF707070)),
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Color(0xFFE0E0E0)),
+                        ),
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Color(0xFFE0E0E0)),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                          borderSide: BorderSide(color: Color(0xFFE0E0E0)),
+                        ),
                       ),
                     ),
                     SizedBox(
-                      width: 10.w,
+                      height: 10.h,
                     ),
-                    Container(
-                      height: 36.h,
-                      width: 85.w,
-                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Color(0xFFD7D7D7))),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset('assets/Filters.png'),
-                          SizedBox(
-                            width: 5.w,
-                          ),
-                          Text(
-                            'Filter',
-                            style: TextStyle(color: Colors.black),
-                          ),
-                          Icon(Icons.keyboard_arrow_down)
-                        ],
-                      ),
+                    SizedBox(
+                      height: 36,
+                      child: ListView.separated(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return Container(
+                              padding: EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Color(0xFFE0E0E0),
+                                  ),
+                                  borderRadius: BorderRadius.circular(10)),
+                              child: Center(
+                                child: Text(
+                                  options[index],
+                                  style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 12.sp),
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => SizedBox(
+                                width: 5.w,
+                              ),
+                          itemCount: options.length),
                     ),
-                  ],
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                SizedBox(
-                  child: GridView.builder(
-                    physics: const NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: 10,
-                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, childAspectRatio: 0.5, crossAxisSpacing: 10.w, mainAxisSpacing: 10.h),
-                    itemBuilder: (context, index) {
-                      return index == 3 || index == 6 ? buildaddcard() : buildSalecard();
-                    },
-                  ),
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    buildcarousel(),
+                    SizedBox(
+                      height: 20.h,
+                    ),
                     Text(
-                      'Frequently Asked Questions',
+                      'What’s on your mind?',
                       style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
                     ),
-                    Icon(Icons.arrow_forward_ios, color: Color(0xFF525252))
+                    SizedBox(
+                      height: 10,
+                    ),
+                    SizedBox(
+                      height: 136.h,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              height: 110.h,
+                              width: 80.w,
+                              child: Column(
+                                children: [
+                                  SizedBox(
+                                      height: 72.h,
+                                      width: 72.h,
+                                      child: Image.asset(
+                                        mindcards[index]['icon'].toString(),
+                                        fit: BoxFit.cover,
+                                      )),
+                                  Text(
+                                    mindcards[index]['name'].toString(),
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(fontSize: 12.sp, color: Colors.black),
+                                  )
+                                ],
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => SizedBox(
+                                width: 10.w,
+                              ),
+                          itemCount: mindcards.length),
+                    ),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Top Brands',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
+                        ),
+                        Icon(Icons.arrow_forward_ios, color: Color(0xFF525252))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 136.h,
+                      child: ListView.separated(
+                          shrinkWrap: true,
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) {
+                            return SizedBox(
+                              height: 64.h,
+                              width: 64.w,
+                              child: CircleAvatar(
+                                backgroundColor: Color(0xFFF2F2F2),
+                                child: Image.asset(
+                                  topbrands[index].toString(),
+                                  fit: BoxFit.cover,
+                                ),
+                              ),
+                            );
+                          },
+                          separatorBuilder: (context, index) => SizedBox(
+                                width: 10.w,
+                              ),
+                          itemCount: topbrands.length),
+                    ),
+                    RichText(
+                        text: TextSpan(
+                            text: 'Best deals ',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
+                            children: [
+                          TextSpan(
+                            text: 'in India',
+                            style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w500),
+                          )
+                        ])),
+                    SizedBox(
+                      height: 10.h,
+                    ),
+                    Row(
+                      children: [
+                        Container(
+                          height: 36.h,
+                          width: 85.w,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Color(0xFFD7D7D7))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/sort.png'),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              Text(
+                                'Sort',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              Icon(Icons.keyboard_arrow_down)
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          width: 10.w,
+                        ),
+                        Container(
+                          height: 36.h,
+                          width: 85.w,
+                          decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Color(0xFFD7D7D7))),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset('assets/Filters.png'),
+                              SizedBox(
+                                width: 5.w,
+                              ),
+                              Text(
+                                'Filter',
+                                style: TextStyle(color: Colors.black),
+                              ),
+                              Icon(Icons.keyboard_arrow_down)
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    SizedBox(
+                      child: GridView.builder(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        itemCount: 10,
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, childAspectRatio: 0.5, crossAxisSpacing: 10.w, mainAxisSpacing: 10.h),
+                        itemBuilder: (context, index) {
+                          return index == 3 || index == 6 ? buildaddcard() : buildSalecard();
+                        },
+                      ),
+                    ),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Frequently Asked Questions',
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
+                        ),
+                        Icon(Icons.arrow_forward_ios, color: Color(0xFF525252))
+                      ],
+                    ),
+                    SizedBox(
+                      height: 10,
+                    ),
+                    buildFaqtiles(),
+                    SizedBox(height: 20.h,),
                   ],
                 ),
-                SizedBox(
-                  height: 10,
-                ),
-                buildFaqtiles(),
-                Container(
-                  height: 300.h,
-                  color: Colors.amber,
-                )
-              ],
-            );
-          },
-        ),
+              );
+            },
+          ),
+           SizedBox(
+            height: 222.h,
+            child: Image.asset(
+              'assets/Newsletter.png',
+              fit: BoxFit.cover,
+            ),
+          ),
+
+          SizedBox(
+            height: 341.h,
+            child: Image.asset('assets/Frame.png',fit: BoxFit.cover,),
+          )
+        ],
       ),
     );
   }

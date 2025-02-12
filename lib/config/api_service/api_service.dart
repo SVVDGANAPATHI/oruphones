@@ -24,20 +24,4 @@ class ApiService {
   }
 }
 
-  String _getErrorMessage({required int statusCode, String? message}) {
-    switch (statusCode) {
-      case 400:
-        return '$message';
-      case 401:
-        return '$message';
-      case 403:
-        return '$message';
-      case 404:
-        return '$message';
-      case 500:
-        return '$message';
-      default:
-        return '$message';
-    }
-  }
 }
