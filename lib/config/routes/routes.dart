@@ -3,13 +3,14 @@ import 'package:oruphones/home/home_screen.dart';
 import 'package:oruphones/registration/customer_name_screen.dart';
 import 'package:oruphones/registration/login_screen.dart';
 import 'package:oruphones/registration/verify_otp_screen.dart';
+import 'package:oruphones/splashscreen/splash_screen.dart';
 import 'package:oruphones/undefined_route.dart';
 
 class AppRoutes {
   static Route onGenerateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _materialRoute(const HomeScreen()); //SplashScreen
+        return _materialRoute(const SplashScreen()); 
       case '/verifyotp':
         return _materialRoute(const VerifyOtpScreen());
       case '/customername':

@@ -21,6 +21,17 @@ class _HomeScreenState extends State<HomeScreen> {
     {'icon': 'assets/FAQ.png', 'name': 'FAQs'},
   ];
 
+  List<String> topbrands = [
+    'assets/brand1.png',
+    'assets/brand2.png',
+    'assets/brand3.png',
+    'assets/brand4.png',
+    'assets/brand5.png',
+    'assets/brand6.png',
+    'assets/brand7.png',
+    'assets/morebrands.png',
+  ];
+
   List<Map<String, String>> mindcards = [
     {'icon': 'assets/buyusedphones.png', 'name': 'Buy Used Phones'},
     {'icon': 'assets/sellusedphones.png', 'name': 'Sell Used Phones'},
@@ -37,9 +48,14 @@ class _HomeScreenState extends State<HomeScreen> {
     {'icon': 'assets/underwarrantyphones.png', 'name': 'Under Warranty Phones'},
     {'icon': 'assets/premiumphones.png', 'name': 'Premium Phones'},
     {'icon': 'assets/likenewphones.png', 'name': 'Like New Phones'},
+    {'icon': 'assets/refurbished.png', 'name': 'Refurbished Phones'},
+    {'icon': 'assets/verifiedphones.png', 'name': 'Verified Phones'},
+    {'icon': 'assets/mynegotations.png', 'name': 'My Negotiations'},
+    {'icon': 'assets/myfavourites.png', 'name': 'My Favourites'},
   ];
 
   int _currentIndex = 0;
+  bool isFavourite = false;
 
   final List<String> imageList = [
     'assets/image1.png',
@@ -62,6 +78,26 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+        floatingActionButton: SizedBox(
+          height: 51.h,
+          width: 110.w,
+          child: FloatingActionButton(
+              elevation: 0,
+              backgroundColor: Colors.transparent,
+              onPressed: () {},
+              child: Container(
+                width: 110.w,
+                height: 52.h,
+                decoration: BoxDecoration(
+                    color: Color(0xff363636), borderRadius: BorderRadius.circular(44), border: Border.all(color: Color(0xFFF6C018), width: 4)),
+                child: Center(
+                    child: Text(
+                  'SELL +',
+                  style: TextStyle(color: Color(0xFFF6C018)),
+                )),
+              )),
+        ),
         appBar: buildAppbar(context),
         drawer: builddrawer(),
         body: buildBody(context),
@@ -337,58 +373,151 @@ class _HomeScreenState extends State<HomeScreen> {
               'What’s on your mind?',
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
             ),
-            SizedBox(height: 10,),
+            SizedBox(
+              height: 10,
+            ),
             SizedBox(
               height: 136.h,
               child: ListView.separated(
-                shrinkWrap: true,
-                 scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return SizedBox(
                       height: 110.h,
-                      width: 72.w,
+                      width: 80.w,
                       child: Column(
                         children: [
                           SizedBox(
-                            height: 72.h,width: 72.h,
-                            child: Image.asset(mindcards[index]['icon'].toString(),fit: BoxFit.cover,)),
-                          Text(mindcards[index]['name'].toString(),textAlign: TextAlign.center,style: TextStyle(fontSize: 12.sp,color: Colors.black),)
+                              height: 72.h,
+                              width: 72.h,
+                              child: Image.asset(
+                                mindcards[index]['icon'].toString(),
+                                fit: BoxFit.cover,
+                              )),
+                          Text(
+                            mindcards[index]['name'].toString(),
+                            textAlign: TextAlign.center,
+                            style: TextStyle(fontSize: 12.sp, color: Colors.black),
+                          )
                         ],
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) => SizedBox(width: 10.w,),
+                  separatorBuilder: (context, index) => SizedBox(
+                        width: 10.w,
+                      ),
                   itemCount: mindcards.length),
             ),
-            SizedBox(height: 10.h,),
-            Text(
-              'What’s on your mind?',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
+            SizedBox(
+              height: 10.h,
             ),
-            SizedBox(height: 10,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Top Brands',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
+                ),
+                Icon(Icons.arrow_forward_ios, color: Color(0xFF525252))
+              ],
+            ),
             SizedBox(
               height: 136.h,
               child: ListView.separated(
-                shrinkWrap: true,
-                 scrollDirection: Axis.horizontal,
+                  shrinkWrap: true,
+                  scrollDirection: Axis.horizontal,
                   itemBuilder: (context, index) {
                     return SizedBox(
-                      height: 110.h,
-                      width: 72.w,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                            height: 72.h,width: 72.h,
-                            child: Image.asset(mindcards[index]['icon'].toString(),fit: BoxFit.cover,)),
-                          Text(mindcards[index]['name'].toString(),textAlign: TextAlign.center,style: TextStyle(fontSize: 12.sp,color: Colors.black),)
-                        ],
+                      height: 64.h,
+                      width: 64.w,
+                      child: CircleAvatar(
+                        backgroundColor: Color(0xFFF2F2F2),
+                        child: Image.asset(
+                          topbrands[index].toString(),
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     );
                   },
-                  separatorBuilder: (context, index) => SizedBox(width: 10.w,),
-                  itemCount: mindcards.length),
+                  separatorBuilder: (context, index) => SizedBox(
+                        width: 10.w,
+                      ),
+                  itemCount: topbrands.length),
+            ),
+            RichText(
+                text: TextSpan(
+                    text: 'Best deals ',
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
+                    children: [
+                  TextSpan(
+                    text: 'in India',
+                    style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w500),
+                  )
+                ])),
+            SizedBox(
+              height: 10.h,
+            ),
+            Row(
+              children: [
+                Container(
+                  height: 36.h,
+                  width: 85.w,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Color(0xFFD7D7D7))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/sort.png'),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Text(
+                        'Sort',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      Icon(Icons.keyboard_arrow_down)
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  width: 10.w,
+                ),
+                Container(
+                  height: 36.h,
+                  width: 85.w,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Color(0xFFD7D7D7))),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/Filters.png'),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Text(
+                        'Filter',
+                        style: TextStyle(color: Colors.black),
+                      ),
+                      Icon(Icons.keyboard_arrow_down)
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            SizedBox(
+              height: 1000.h,
+              child: GridView.builder(
+                physics: const NeverScrollableScrollPhysics(),
+                // shrinkWrap: true,
+                itemCount: 10,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2
+                ,childAspectRatio: 0.6),
+                itemBuilder: (context, index) {
+                  return buildSalecard();
+                },
+              ),
             )
-            
           ],
         ),
       ),
@@ -437,6 +566,107 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }).toList())
       ],
+    );
+  }
+
+  Widget buildSalecard() {
+    return Card(
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Stack(
+            children: [
+              SizedBox(
+                height: 180.h,
+                child: ClipRRect(
+                    borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
+                    child: Image.asset(
+                      'assets/phone.png',
+                      fit: BoxFit.cover,
+                    )),
+              ),
+              Positioned(
+                top: 10,
+                left: 4,
+                child: SizedBox(
+                    height: 31.h,
+                    width: 100.w,
+                    child: Image.asset(
+                      'assets/banner.png',
+                      fit: BoxFit.cover,
+                    )),
+              ),
+              Positioned(
+                top: 12,
+                left: 7,
+                child: RichText(
+                    text: TextSpan(
+                        text: 'ORU',
+                        style: TextStyle(fontSize: 14.sp, color: Colors.white, fontWeight: FontWeight.bold),
+                        children: [TextSpan(text: 'Verified', style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.normal))])),
+              ),
+              Positioned(
+                top: -3,
+                right: 0,
+                child: Visibility(
+                  visible: !isFavourite, //Favourite icon
+                  replacement: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isFavourite = !isFavourite;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.favorite,
+                        color: Colors.red,
+                      )),
+                  child: IconButton(
+                      onPressed: () {
+                        setState(() {
+                          isFavourite = !isFavourite;
+                        });
+                      },
+                      icon: Icon(
+                        Icons.favorite_outline,
+                        color: Colors.white,
+                      )),
+                ),
+              ),
+              Positioned(
+                bottom: 0,
+                child: Container(
+                  height: 27.h,
+                  width: 174.w,
+                  color: Color(0xFF4C4C4C),
+                  child: Center(child: Text('PRICE NEGOTIABLE',style: TextStyle(color: Colors.white),)),
+                ),
+              )
+            ],
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            height: 120,
+            child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text('Apple iPhone 13 Pro',style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 16.sp,fontWeight: FontWeight.w800),),
+                SizedBox(height: 10.h,),
+                Text('12/256 GB Like New'),
+                SizedBox(height: 10.h,),
+                RichText(text: TextSpan(
+                  text: '₹ 41,500',style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w800),
+                  children: [
+                    TextSpan(text: ' '),
+                    TextSpan(
+                      text: '₹ 81,500',style: Theme.of(context).textTheme.bodyMedium?.copyWith(decoration:TextDecoration.lineThrough,fontSize: 12.sp )
+                    ),
+                    TextSpan(text: '(45% off)',style:  Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red,fontSize: 10.sp))
+                  ]
+                ),
+                ),
+              ],
+            ),
+          )
+        ],
+      ),
     );
   }
 }
