@@ -1,6 +1,8 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oruphones/bloc/faq/faq_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -74,6 +76,13 @@ class _HomeScreenState extends State<HomeScreen> {
     'Register your Store',
     'Get the App'
   ];
+
+  @override
+  void initState() {
+    context.read<FaqBloc>().add(GetFaqDetails());
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -309,216 +318,240 @@ class _HomeScreenState extends State<HomeScreen> {
     return Padding(
       padding: const EdgeInsets.all(10.0),
       child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Search phones with make, model...',
-                hintStyle: TextStyle(color: Color(0xFF707070), fontSize: 14.sp),
-                prefixIcon: Icon(Icons.search, color: Color(0xFFFFA500)),
-                suffixIcon: Icon(Icons.mic, color: Color(0xFF707070)),
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Color(0xFFE0E0E0)),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Color(0xFFE0E0E0)),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Color(0xFFE0E0E0)),
-                ),
-              ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            SizedBox(
-              height: 36,
-              child: ListView.separated(
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      padding: EdgeInsets.all(10),
-                      decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Color(0xFFE0E0E0),
-                          ),
-                          borderRadius: BorderRadius.circular(10)),
-                      child: Center(
-                        child: Text(
-                          options[index],
-                          style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 12.sp),
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => SizedBox(
-                        width: 5.w,
-                      ),
-                  itemCount: options.length),
-            ),
-            SizedBox(
-              height: 15.h,
-            ),
-            buildcarousel(),
-            SizedBox(
-              height: 20.h,
-            ),
-            Text(
-              'What’s on your mind?',
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            SizedBox(
-              height: 136.h,
-              child: ListView.separated(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      height: 110.h,
-                      width: 80.w,
-                      child: Column(
-                        children: [
-                          SizedBox(
-                              height: 72.h,
-                              width: 72.h,
-                              child: Image.asset(
-                                mindcards[index]['icon'].toString(),
-                                fit: BoxFit.cover,
-                              )),
-                          Text(
-                            mindcards[index]['name'].toString(),
-                            textAlign: TextAlign.center,
-                            style: TextStyle(fontSize: 12.sp, color: Colors.black),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => SizedBox(
-                        width: 10.w,
-                      ),
-                  itemCount: mindcards.length),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        child: BlocBuilder<FaqBloc, FaqState>(
+          builder: (context, state) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  'Top Brands',
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
-                ),
-                Icon(Icons.arrow_forward_ios, color: Color(0xFF525252))
-              ],
-            ),
-            SizedBox(
-              height: 136.h,
-              child: ListView.separated(
-                  shrinkWrap: true,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) {
-                    return SizedBox(
-                      height: 64.h,
-                      width: 64.w,
-                      child: CircleAvatar(
-                        backgroundColor: Color(0xFFF2F2F2),
-                        child: Image.asset(
-                          topbrands[index].toString(),
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    );
-                  },
-                  separatorBuilder: (context, index) => SizedBox(
-                        width: 10.w,
-                      ),
-                  itemCount: topbrands.length),
-            ),
-            RichText(
-                text: TextSpan(
-                    text: 'Best deals ',
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
-                    children: [
-                  TextSpan(
-                    text: 'in India',
-                    style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w500),
-                  )
-                ])),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                Container(
-                  height: 36.h,
-                  width: 85.w,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Color(0xFFD7D7D7))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/sort.png'),
-                      SizedBox(
-                        width: 5.w,
-                      ),
-                      Text(
-                        'Sort',
-                        style: TextStyle(color: Colors.black),
-                      ),
-                      Icon(Icons.keyboard_arrow_down)
-                    ],
+                TextField(
+                  decoration: InputDecoration(
+                    hintText: 'Search phones with make, model...',
+                    hintStyle: TextStyle(color: Color(0xFF707070), fontSize: 14.sp),
+                    prefixIcon: Icon(Icons.search, color: Color(0xFFFFA500)),
+                    suffixIcon: Icon(Icons.mic, color: Color(0xFF707070)),
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Color(0xFFE0E0E0)),
+                    ),
+                    enabledBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Color(0xFFE0E0E0)),
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                      borderSide: BorderSide(color: Color(0xFFE0E0E0)),
+                    ),
                   ),
                 ),
                 SizedBox(
-                  width: 10.w,
+                  height: 10.h,
                 ),
-                Container(
-                  height: 36.h,
-                  width: 85.w,
-                  decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Color(0xFFD7D7D7))),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Image.asset('assets/Filters.png'),
-                      SizedBox(
-                        width: 5.w,
+                SizedBox(
+                  height: 36,
+                  child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return Container(
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color(0xFFE0E0E0),
+                              ),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: Center(
+                            child: Text(
+                              options[index],
+                              style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 12.sp),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                            width: 5.w,
+                          ),
+                      itemCount: options.length),
+                ),
+                SizedBox(
+                  height: 15.h,
+                ),
+                buildcarousel(),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Text(
+                  'What’s on your mind?',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                SizedBox(
+                  height: 136.h,
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          height: 110.h,
+                          width: 80.w,
+                          child: Column(
+                            children: [
+                              SizedBox(
+                                  height: 72.h,
+                                  width: 72.h,
+                                  child: Image.asset(
+                                    mindcards[index]['icon'].toString(),
+                                    fit: BoxFit.cover,
+                                  )),
+                              Text(
+                                mindcards[index]['name'].toString(),
+                                textAlign: TextAlign.center,
+                                style: TextStyle(fontSize: 12.sp, color: Colors.black),
+                              )
+                            ],
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                            width: 10.w,
+                          ),
+                      itemCount: mindcards.length),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Top Brands',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Color(0xFF525252))
+                  ],
+                ),
+                SizedBox(
+                  height: 136.h,
+                  child: ListView.separated(
+                      shrinkWrap: true,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) {
+                        return SizedBox(
+                          height: 64.h,
+                          width: 64.w,
+                          child: CircleAvatar(
+                            backgroundColor: Color(0xFFF2F2F2),
+                            child: Image.asset(
+                              topbrands[index].toString(),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(
+                            width: 10.w,
+                          ),
+                      itemCount: topbrands.length),
+                ),
+                RichText(
+                    text: TextSpan(
+                        text: 'Best deals ',
+                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
+                        children: [
+                      TextSpan(
+                        text: 'in India',
+                        style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 18.sp, fontWeight: FontWeight.w500),
+                      )
+                    ])),
+                SizedBox(
+                  height: 10.h,
+                ),
+                Row(
+                  children: [
+                    Container(
+                      height: 36.h,
+                      width: 85.w,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Color(0xFFD7D7D7))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/sort.png'),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Text(
+                            'Sort',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Icon(Icons.keyboard_arrow_down)
+                        ],
                       ),
-                      Text(
-                        'Filter',
-                        style: TextStyle(color: Colors.black),
+                    ),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    Container(
+                      height: 36.h,
+                      width: 85.w,
+                      decoration: BoxDecoration(borderRadius: BorderRadius.circular(8), border: Border.all(color: Color(0xFFD7D7D7))),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset('assets/Filters.png'),
+                          SizedBox(
+                            width: 5.w,
+                          ),
+                          Text(
+                            'Filter',
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Icon(Icons.keyboard_arrow_down)
+                        ],
                       ),
-                      Icon(Icons.keyboard_arrow_down)
-                    ],
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                SizedBox(
+                  child: GridView.builder(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: 10,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, childAspectRatio: 0.5, crossAxisSpacing: 10.w, mainAxisSpacing: 10.h),
+                    itemBuilder: (context, index) {
+                      return index == 3 || index == 6 ? buildaddcard() : buildSalecard();
+                    },
                   ),
                 ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Frequently Asked Questions',
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Color(0xFF525252), fontSize: 18.sp),
+                    ),
+                    Icon(Icons.arrow_forward_ios, color: Color(0xFF525252))
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                buildFaqtiles(),
+                Container(
+                  height: 300.h,
+                  color: Colors.amber,
+                )
               ],
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            SizedBox(
-              height: 1000.h,
-              child: GridView.builder(
-                physics: const NeverScrollableScrollPhysics(),
-                // shrinkWrap: true,
-                itemCount: 10,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: 2
-                ,childAspectRatio: 0.6),
-                itemBuilder: (context, index) {
-                  return buildSalecard();
-                },
-              ),
-            )
-          ],
+            );
+          },
         ),
       ),
     );
@@ -571,12 +604,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildSalecard() {
     return Card(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+      elevation: 5,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Stack(
             children: [
               SizedBox(
-                height: 180.h,
+                // height: 180.h,
                 child: ClipRRect(
                     borderRadius: BorderRadius.only(topLeft: Radius.circular(8), topRight: Radius.circular(8)),
                     child: Image.asset(
@@ -637,7 +673,11 @@ class _HomeScreenState extends State<HomeScreen> {
                   height: 27.h,
                   width: 174.w,
                   color: Color(0xFF4C4C4C),
-                  child: Center(child: Text('PRICE NEGOTIABLE',style: TextStyle(color: Colors.white),)),
+                  child: Center(
+                      child: Text(
+                    'PRICE NEGOTIABLE',
+                    style: TextStyle(color: Colors.white),
+                  )),
                 ),
               )
             ],
@@ -645,28 +685,103 @@ class _HomeScreenState extends State<HomeScreen> {
           Container(
             padding: EdgeInsets.all(10),
             height: 120,
-            child: Column(crossAxisAlignment: CrossAxisAlignment.start,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text('Apple iPhone 13 Pro',style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 16.sp,fontWeight: FontWeight.w800),),
-                SizedBox(height: 10.h,),
+                Text(
+                  'Apple iPhone 13 Pro',
+                  style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w800),
+                ),
+                SizedBox(
+                  height: 10.h,
+                ),
                 Text('12/256 GB Like New'),
-                SizedBox(height: 10.h,),
-                RichText(text: TextSpan(
-                  text: '₹ 41,500',style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w800),
-                  children: [
-                    TextSpan(text: ' '),
-                    TextSpan(
-                      text: '₹ 81,500',style: Theme.of(context).textTheme.bodyMedium?.copyWith(decoration:TextDecoration.lineThrough,fontSize: 12.sp )
-                    ),
-                    TextSpan(text: '(45% off)',style:  Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red,fontSize: 10.sp))
-                  ]
+                SizedBox(
+                  height: 10.h,
                 ),
+                RichText(
+                  text: TextSpan(
+                      text: '₹ 41,500',
+                      style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 16.sp, fontWeight: FontWeight.w800),
+                      children: [
+                        TextSpan(text: ' '),
+                        TextSpan(
+                            text: '₹ 81,500',
+                            style: Theme.of(context).textTheme.bodyMedium?.copyWith(decoration: TextDecoration.lineThrough, fontSize: 12.sp)),
+                        TextSpan(text: '(45% off)', style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red, fontSize: 10.sp))
+                      ]),
                 ),
+              ],
+            ),
+          ),
+          Container(
+            padding: EdgeInsets.symmetric(horizontal: 5),
+            height: 30,
+            decoration: BoxDecoration(
+                color: Colors.white, borderRadius: BorderRadius.only(bottomLeft: Radius.circular(10), bottomRight: Radius.circular(10))),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Nijampur, Luc..',
+                  style: TextStyle(fontSize: 12.sp),
+                ),
+                Text('July 25th', style: TextStyle(fontSize: 12.sp))
               ],
             ),
           )
         ],
       ),
+    );
+  }
+
+  Widget buildaddcard() {
+    return SizedBox(
+      child: ClipRRect(
+          borderRadius: BorderRadius.circular(10),
+          child: Image.asset(
+            'assets/ad_image.png',
+            fit: BoxFit.cover,
+          )),
+    );
+  }
+
+  //state.getFaq?.faQs[0].question ?? ''
+  Widget buildFaqtiles() {
+    return BlocConsumer<FaqBloc, FaqState>(
+      listener: (context, state) {},
+      builder: (context, state) {
+        if (state.getFaq == null) {
+          return CircularProgressIndicator();
+        } else {
+          return SizedBox(
+           // height: 300,
+            child: ListView.separated(
+              physics: NeverScrollableScrollPhysics(),
+              separatorBuilder: (context,index) => SizedBox(height: 10.h,),
+              shrinkWrap: true,
+              itemCount: state.getFaq!.faQs.length,
+              itemBuilder: (context, index) {
+                return Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(color: Color(0xFFE0E0E0))
+                  ),
+                  child: ExpansionTile(
+                    shape: Border.all(color: Colors.transparent),
+                    childrenPadding: EdgeInsets.all(10),
+                    trailing: Icon(Icons.add),
+                    title: Text( state.getFaq!.faQs[index].question),
+                    children: [
+                      Text(state.getFaq!.faQs[index].answer)
+                    ],
+                    ),
+                );
+              },
+            ),
+          );
+        }
+      },
     );
   }
 }

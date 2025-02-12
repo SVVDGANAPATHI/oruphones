@@ -10,7 +10,7 @@ class AppRoutes {
   static Route onGenerateRoutes(RouteSettings settings) {
     switch (settings.name) {
       case '/':
-        return _materialRoute(const SplashScreen()); 
+        return _materialRoute(const HomeScreen()); 
       case '/verifyotp':
         return _materialRoute(const VerifyOtpScreen());
       case '/customername':
