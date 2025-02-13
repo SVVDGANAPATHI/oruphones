@@ -14,6 +14,9 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   bool isuser = false;
   int? expandedIndex;
+  int _currentIndex = 0;
+  bool isFavourite = false;
+
   List<Map<String, String>> actioncards = [
     {'icon': 'assets/howtobuy.png', 'name': 'How to Buy'},
     {'icon': 'assets/howtosell.png', 'name': 'How to Sell'},
@@ -56,10 +59,13 @@ class _HomeScreenState extends State<HomeScreen> {
     {'icon': 'assets/myfavourites.png', 'name': 'My Favourites'},
   ];
 
-  int _currentIndex = 0;
-  bool isFavourite = false;
-
-  final List<String> imageList = [
+  List<String> shareicons = [
+    'assets/insta.png',
+    'assets/telegram.png',
+    'assets/threads.png',
+    'assets/whatsapp.png'
+  ];
+  List<String> imageList = [
     'assets/image1.png',
     'assets/image2.png',
     'assets/image3.png',
@@ -82,6 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
     context.read<FaqBloc>().add(GetFaqDetails());
     super.initState();
   }
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -547,24 +555,141 @@ class _HomeScreenState extends State<HomeScreen> {
                       height: 10,
                     ),
                     buildFaqtiles(),
-                    SizedBox(height: 20.h,),
+                    SizedBox(
+                      height: 20.h,
+                    ),
                   ],
                 ),
               );
             },
           ),
-           SizedBox(
+          SizedBox(
             height: 222.h,
             child: Image.asset(
               'assets/Newsletter.png',
               fit: BoxFit.cover,
             ),
           ),
-
+          Container(
+            color: Color(0xFF363636),
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 342.h,
+                  child: Image.asset(
+                    'assets/Frame.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Stack(
+            children: [
+              Container(
+                color: Color(0xFF363636),
+                width: double.infinity,
+                height: 237.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    child: Column(
+                      children: [
+                        Text(
+                          'Invite a Friend',
+                          style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 20.sp, color: Colors.white),
+                        ),
+                        SizedBox(
+                          height: 20.h,
+                        ),
+                        Card(
+                          elevation: 2,
+                          child: Container(
+                            padding: EdgeInsets.all(10),
+                            height: 238.h,
+                            width: 308.w,
+                            decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(40)),
+                            child: Column(
+                              crossAxisAlignment:CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text('Invite a friend to ORUphones application.',
+                                style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 14.sp),),
+                                SizedBox(height: 2.h,),
+                                Text(
+                                  textAlign: TextAlign.center,
+                                  'Tap to copy the respective download link to the clipboard',
+                                  style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 14.sp),
+                                ),
+                                SizedBox(height: 20.h,),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: SizedBox(
+                                    height: 56.h,
+                                    width: 167.w,
+                                    child: Image.asset('assets/playstore.png')),
+                                ),
+                                SizedBox(height: 10.h,),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: SizedBox(height: 56.h, width: 167.w, 
+                                  child: Image.asset('assets/appstore.png')),
+                                ),
+                              ],
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ],
+              )
+            ],
+          ),
           SizedBox(
-            height: 341.h,
-            child: Image.asset('assets/Frame.png',fit: BoxFit.cover,),
-          )
+            height: 20.h,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text('Or Share', style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 20.sp)),
+            ],
+          ),
+          SizedBox(height: 20.h,),
+          Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              SizedBox(
+                height: 40.h,
+                width: 40.w,
+                child: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/640px-Instagram_logo_2022.svg.png'),
+              ),
+               SizedBox(
+                height: 40.h,
+                width: 40.w,
+                child: Image.network(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/800px-Telegram_2019_Logo.svg.png'),
+              ),
+               ClipRRect(
+                borderRadius: BorderRadius.circular(10),
+                 child: SizedBox(
+                  height: 40.h,
+                  width: 40.w,
+                  child: Image.network(
+                      'https://static.dezeen.com/uploads/2023/07/x-logo-twitter-elon-musk_dezeen_2364_col_0.jpg'),
+                               ),
+               ),
+               Container(
+                color: Colors.white,
+                height: 40.h,
+                width: 40.w,
+                child: Image.network(
+                    'https://w7.pngwing.com/pngs/535/813/png-transparent-call-icon-logo-whatsapp-computer-icons-viber-text-viber-area.png',fit: BoxFit.cover,),
+              )
+            ],
+          ),
+          SizedBox(height: 100.h,)
         ],
       ),
     );
@@ -782,8 +907,12 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: ExpansionTile(
                     shape: Border.all(color: Colors.transparent),
                     childrenPadding: EdgeInsets.all(10),
-                    trailing: index == expandedIndex ? Icon(Icons.close,color: Colors.grey,) : Icon(Icons.add),
-                    
+                    trailing: index == expandedIndex
+                        ? Icon(
+                            Icons.close,
+                            color: Colors.grey,
+                          )
+                        : Icon(Icons.add),
                     title: Text(state.getFaq!.faQs[index].question),
                     children: [Text(state.getFaq!.faQs[index].answer)],
                     onExpansionChanged: (value) {
