@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:oruphones/bloc/faq/faq_bloc.dart';
+import 'package:oruphones/home/dynamic_bottom_sheet.dart';
+import 'package:share_plus/share_plus.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int? expandedIndex;
   int _currentIndex = 0;
   bool isFavourite = false;
+  final String shareText = "Check out this amazing app!";
 
   List<Map<String, String>> actioncards = [
     {'icon': 'assets/howtobuy.png', 'name': 'How to Buy'},
@@ -59,12 +62,7 @@ class _HomeScreenState extends State<HomeScreen> {
     {'icon': 'assets/myfavourites.png', 'name': 'My Favourites'},
   ];
 
-  List<String> shareicons = [
-    'assets/insta.png',
-    'assets/telegram.png',
-    'assets/threads.png',
-    'assets/whatsapp.png'
-  ];
+  List<String> shareicons = ['assets/insta.png', 'assets/telegram.png', 'assets/threads.png', 'assets/whatsapp.png'];
   List<String> imageList = [
     'assets/image1.png',
     'assets/image2.png',
@@ -83,13 +81,26 @@ class _HomeScreenState extends State<HomeScreen> {
     'Get the App'
   ];
 
+  void _shareContent(BuildContext context) {
+    Share.share(shareText);
+  }
+
+  // Future<void> _shareOnWhatsApp() async {
+  //   String message = shareText;
+  //   Uri whatsappUri = Uri.parse("whatsapp://send?text=$message");
+
+  //   if (await canLaunchUrl(whatsappUri)) {
+  //     await launchUrl(whatsappUri);
+  //   } else {
+  //     await launchUrl(Uri.parse("https://web.whatsapp.com/"));
+  //   }
+  // }
+
   @override
   void initState() {
     context.read<FaqBloc>().add(GetFaqDetails());
     super.initState();
   }
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -215,16 +226,19 @@ class _HomeScreenState extends State<HomeScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SizedBox(
-                  height: 43.h,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/login');
-                    },
-                    child: Text(
-                      'Login/SignUp',
-                      style: TextStyle(fontWeight: FontWeight.normal),
+                Visibility(
+                  visible: !isuser,
+                  child: SizedBox(
+                    height: 43.h,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40))),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/login');
+                      },
+                      child: Text(
+                        'Login/SignUp',
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                      ),
                     ),
                   ),
                 ),
@@ -612,30 +626,34 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 308.w,
                             decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(40)),
                             child: Column(
-                              crossAxisAlignment:CrossAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Text('Invite a friend to ORUphones application.',
-                                style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 14.sp),),
-                                SizedBox(height: 2.h,),
+                                Text(
+                                  'Invite a friend to ORUphones application.',
+                                  style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 14.sp),
+                                ),
+                                SizedBox(
+                                  height: 2.h,
+                                ),
                                 Text(
                                   textAlign: TextAlign.center,
                                   'Tap to copy the respective download link to the clipboard',
                                   style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 14.sp),
                                 ),
-                                SizedBox(height: 20.h,),
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: SizedBox(
-                                    height: 56.h,
-                                    width: 167.w,
-                                    child: Image.asset('assets/playstore.png')),
+                                SizedBox(
+                                  height: 20.h,
                                 ),
-                                SizedBox(height: 10.h,),
                                 Align(
                                   alignment: Alignment.center,
-                                  child: SizedBox(height: 56.h, width: 167.w, 
-                                  child: Image.asset('assets/appstore.png')),
+                                  child: SizedBox(height: 56.h, width: 167.w, child: Image.asset('assets/playstore.png')),
+                                ),
+                                SizedBox(
+                                  height: 10.h,
+                                ),
+                                Align(
+                                  alignment: Alignment.center,
+                                  child: SizedBox(height: 56.h, width: 167.w, child: Image.asset('assets/appstore.png')),
                                 ),
                               ],
                             ),
@@ -657,39 +675,52 @@ class _HomeScreenState extends State<HomeScreen> {
               Text('Or Share', style: Theme.of(context).textTheme.displayMedium?.copyWith(fontSize: 20.sp)),
             ],
           ),
-          SizedBox(height: 20.h,),
-          Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
+          SizedBox(
+            height: 20.h,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(
                 height: 40.h,
                 width: 40.w,
-                child: Image.network('https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/640px-Instagram_logo_2022.svg.png'),
+                child: Image.network(
+                    'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/640px-Instagram_logo_2022.svg.png'),
               ),
-               SizedBox(
+              SizedBox(
                 height: 40.h,
                 width: 40.w,
                 child: Image.network(
                     'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Telegram_2019_Logo.svg/800px-Telegram_2019_Logo.svg.png'),
               ),
-               ClipRRect(
+              ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                 child: SizedBox(
+                child: SizedBox(
+                  height: 40.h,
+                  width: 40.w,
+                  child: Image.network('https://static.dezeen.com/uploads/2023/07/x-logo-twitter-elon-musk_dezeen_2364_col_0.jpg'),
+                ),
+              ),
+              GestureDetector(
+                onTap: () {
+                  //_shareOnWhatsApp;
+                  _shareContent(context);
+                },
+                child: Container(
+                  color: Colors.white,
                   height: 40.h,
                   width: 40.w,
                   child: Image.network(
-                      'https://static.dezeen.com/uploads/2023/07/x-logo-twitter-elon-musk_dezeen_2364_col_0.jpg'),
-                               ),
-               ),
-               Container(
-                color: Colors.white,
-                height: 40.h,
-                width: 40.w,
-                child: Image.network(
-                    'https://w7.pngwing.com/pngs/535/813/png-transparent-call-icon-logo-whatsapp-computer-icons-viber-text-viber-area.png',fit: BoxFit.cover,),
+                    'https://w7.pngwing.com/pngs/535/813/png-transparent-call-icon-logo-whatsapp-computer-icons-viber-text-viber-area.png',
+                    fit: BoxFit.cover,
+                  ),
+                ),
               )
             ],
           ),
-          SizedBox(height: 100.h,)
+          SizedBox(
+            height: 100.h,
+          )
         ],
       ),
     );
@@ -785,9 +816,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   visible: !isFavourite, //Favourite icon
                   replacement: IconButton(
                       onPressed: () {
-                        setState(() {
-                          isFavourite = !isFavourite;
-                        });
+                        isUserOrNot();
                       },
                       icon: Icon(
                         Icons.favorite,
@@ -795,9 +824,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       )),
                   child: IconButton(
                       onPressed: () {
-                        setState(() {
-                          isFavourite = !isFavourite;
-                        });
+                         isUserOrNot();
                       },
                       icon: Icon(
                         Icons.favorite_outline,
@@ -928,5 +955,24 @@ class _HomeScreenState extends State<HomeScreen> {
         }
       },
     );
+  }
+
+  void isUserOrNot() {
+    if (isuser == true) {
+      setState(() {
+        isFavourite = !isFavourite;
+      });
+    } else {
+      showModalBottomSheet(
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.zero,
+        ),
+        isScrollControlled: true,
+        context: context,
+        builder: (context) {
+          return DynamicBottomSheet();
+        },
+      );
+    }
   }
 }

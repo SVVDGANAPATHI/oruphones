@@ -22,7 +22,9 @@ class _LoginScreenState extends State<LoginScreen> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context);
+              },
               icon: Icon(Icons.close, size: 35.r),
             ),
           )
@@ -52,7 +54,9 @@ class _LoginScreenState extends State<LoginScreen> {
                               'Welcome',
                               style: Theme.of(context).textTheme.displayLarge,
                             ),
-                            SizedBox(height: 5.h,),
+                            SizedBox(
+                              height: 5.h,
+                            ),
                             Text(
                               'Sign in to Continue',
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontSize: 12.sp, fontWeight: FontWeight.w400),
