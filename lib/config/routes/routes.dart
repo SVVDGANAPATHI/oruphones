@@ -11,7 +11,8 @@ class AppRoutes {
       case '/':
         return _materialRoute(const HomeScreen()); 
       case '/verifyotp':
-        return _materialRoute(const VerifyOtpScreen());
+       final String phoneNumber = settings.arguments as String;
+        return _materialRoute(VerifyOtpScreen(phonenumber: phoneNumber,));
       case '/customername':
         return _materialRoute(const CustomerNameScreen());
       case '/login':

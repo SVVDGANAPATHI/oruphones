@@ -29,7 +29,7 @@ class _DynamicBottomSheetState extends State<DynamicBottomSheet> {
         mainAxisSize: MainAxisSize.min,
         children: [
           SizedBox(
-            height: 350.h,
+            height: 370.h,
             child: PageView(
               controller: _pageController,
               physics: NeverScrollableScrollPhysics(), // Disable swipe

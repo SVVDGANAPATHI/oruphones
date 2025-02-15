@@ -1,18 +1,22 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:oruphones/bloc/auth/auth_bloc.dart';
 import 'package:pinput/pinput.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
-  const VerifyOtpScreen({super.key});
+  final String phonenumber;
+  const VerifyOtpScreen({super.key, required this.phonenumber});
 
   @override
   State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
 }
 
 class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
-  final TextEditingController pincontroller = TextEditingController();
+  final TextEditingController _pincontroller = TextEditingController();
   int _secondsRemaining = 30;
   late Timer _timer;
   bool _isResendEnabled = false;
@@ -48,13 +52,14 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
   @override
   void dispose() {
-    _timer.cancel(); // Stop the timer when the screen is disposed
+    _timer.cancel();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         actions: [
           Padding(
@@ -66,121 +71,154 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
           )
         ],
       ),
-      body: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+      body: BlocConsumer<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthAuthenticatedPartially) {
+            Fluttertoast.showToast(
+              msg: 'OTP Successfully Verified',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+            );
+            Navigator.pushReplacementNamed(context, '/customername');
+          } else if (state is AuthAuthenticated) {
+            Navigator.pushReplacementNamed(context, '/homescreen');
+          } else if (state is AuthError) {
+            Fluttertoast.showToast(
+              msg: state.error,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+            );
+            _pincontroller.clear();
+          }
+        },
+        builder: (context, state) {
+          return Column(
             children: [
-              SizedBox(
-                height: 236.h,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    SizedBox(height: 10.h),
-                    SizedBox(height: 61.h, width: 116.w, child: Image.asset('assets/Logo.png')),
-                    SizedBox(
-                      height: 103.h,
-                      child: Column(
-                        children: [
-                          Text(
-                            'Verify Mobile No.',
-                            style: Theme.of(context).textTheme.displayLarge,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 236.h,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        SizedBox(height: 10.h),
+                        SizedBox(height: 61.h, width: 116.w, child: Image.asset('assets/Logo.png')),
+                        SizedBox(
+                          height: 103.h,
+                          child: Column(
+                            children: [
+                              Text(
+                                'Verify Mobile No.',
+                                style: Theme.of(context).textTheme.displayLarge,
+                              ),
+                              SizedBox(
+                                height: 5.h,
+                              ),
+                              SizedBox(
+                                width: 343.w,
+                                child: RichText(
+                                    textAlign: TextAlign.justify,
+                                    text: TextSpan(
+                                        text: 'Please enter the 4 digital verification code sent to your mobile  number ',
+                                        style: Theme.of(context).textTheme.bodyMedium,
+                                        children: [
+                                          TextSpan(
+                                              text: '+91 - ${widget.phonenumber} ',
+                                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+                                          TextSpan(text: 'via '),
+                                          TextSpan(text: 'SMS', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
+                                        ])),
+                              ),
+                            ],
                           ),
-                          SizedBox(
-                            height: 5.h,
-                          ),
-                          SizedBox(
-                            width: 343.w,
-                            child: RichText(
-                                textAlign: TextAlign.justify,
-                                text: TextSpan(
-                                    text: 'Please enter the 4 digital verification code sent to your mobile  number ',
-                                    style: Theme.of(context).textTheme.bodyMedium,
-                                    children: [
-                                      TextSpan(
-                                          text: '+91 - 7675998938 ',
-                                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
-                                      TextSpan(text: 'via '),
-                                      TextSpan(text: 'SMS', style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w600)),
-                                    ])),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
-            ],
-          ),
-          SizedBox(
-            height: 70.h,
-          ),
-          Pinput(
-            controller: pincontroller,
-            defaultPinTheme: PinTheme(
-                textStyle: Theme.of(context).textTheme.displayMedium,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.r),
-                    border: Border.all(
-                        color: Color(
-                      0xFFCCCCCC,
-                    ))),
-                height: 44.h,
-                width: 42.w),
-          ),
-          SizedBox(
-            height: 60.h,
-          ),
-          Visibility(
-            visible: !_isResendEnabled,
-            replacement: TextButton(
-                onPressed: () {
-                  setState(() {
-                    _isResendEnabled = !_isResendEnabled;
-                    _startTimer();
-                  });
-                },
-                child: Text(
-                  'Resend',
-                  style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 14.sp),
-                )),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Column(
+              SizedBox(
+                height: 70.h,
+              ),
+              Pinput(
+                controller: _pincontroller,
+                defaultPinTheme: PinTheme(
+                    textStyle: Theme.of(context).textTheme.displayMedium,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8.r),
+                        border: Border.all(
+                            color: Color(
+                          0xFFCCCCCC,
+                        ))),
+                    height: 44.h,
+                    width: 42.w),
+              ),
+              SizedBox(
+                height: 60.h,
+              ),
+              Visibility(
+                visible: !_isResendEnabled,
+                replacement: TextButton(
+                    onPressed: () {
+                      setState(() {
+                        _isResendEnabled = !_isResendEnabled;
+                        _startTimer();
+                      });
+                    },
+                    child: Text(
+                      'Resend',
+                      style: Theme.of(context).textTheme.displayLarge?.copyWith(fontSize: 14.sp),
+                    )),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
-                      'Didn’t receive OTP?',
-                      style: Theme.of(context).textTheme.bodyMedium,
-                    ),
-                    SizedBox(
-                      height: 5.h,
-                    ),
-                    Row(
+                    Column(
                       children: [
                         Text(
-                          'Resend OTP ',
-                          style: Theme.of(context).textTheme.displayMedium?.copyWith(decoration: TextDecoration.underline),
+                          'Didn’t receive OTP?',
+                          style: Theme.of(context).textTheme.bodyMedium,
                         ),
-                        Text('in ', style: Theme.of(context).textTheme.displayMedium),
-                        Text(_formatTime(), style: Theme.of(context).textTheme.displayMedium),
-                        Text(" sec", style: Theme.of(context).textTheme.displayMedium)
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Row(
+                          children: [
+                            Text(
+                              'Resend OTP ',
+                              style: Theme.of(context).textTheme.displayMedium?.copyWith(decoration: TextDecoration.underline),
+                            ),
+                            Text('in ', style: Theme.of(context).textTheme.displayMedium),
+                            Text(_formatTime(), style: Theme.of(context).textTheme.displayMedium),
+                            Text(" sec", style: Theme.of(context).textTheme.displayMedium)
+                          ],
+                        )
                       ],
                     )
                   ],
-                )
-              ],
-            ),
-          ),
-          SizedBox(
-            height: 50.h,
-          ),
-          ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context,'/customername');
-              },
-              child: Text('Verify OTP'))
-        ],
+                ),
+              ),
+              SizedBox(
+                height: 50.h,
+              ),
+              if (state is AuthLoading)
+                CircularProgressIndicator()
+              else
+                ElevatedButton(
+                    onPressed: () {
+                      final otp = int.tryParse(_pincontroller.text);
+                      final mobilenumber = int.tryParse(widget.phonenumber);
+                      context.read<AuthBloc>().add(VerifyOtp(phonenumber: mobilenumber!, otp: otp!));
+                      //Navigator.pushNamed(context,'/customername');
+                    },
+                    child: Text('Verify OTP'))
+            ],
+          );
+        },
       ),
     );
   }

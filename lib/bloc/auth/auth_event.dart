@@ -6,3 +6,25 @@ sealed class AuthEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+
+class LoginRequested extends AuthEvent {
+  final int countryCode;
+  final int phoneNumber;
+
+  const LoginRequested({required this.countryCode, required this.phoneNumber});
+
+  @override
+  List<Object> get props => [countryCode, phoneNumber];
+}
+
+class VerifyOtp extends AuthEvent {
+  final int otp;
+  final int phonenumber;
+  const VerifyOtp({
+    required this.phonenumber, 
+    required this.otp,
+  });
+
+  @override
+  List<Object> get props => [otp,phonenumber];
+}
