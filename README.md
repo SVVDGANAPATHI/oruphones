@@ -22,7 +22,7 @@ The app follows the **Bloc Architecture**, which divides the project into layers
 ### Steps to Run the Project
 1. Clone the repository:
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/SVVDGANAPATHI/oruphones.git
    ```
 2. Navigate to the project directory:
    ```bash
@@ -38,9 +38,8 @@ The app follows the **Bloc Architecture**, which divides the project into layers
    ```
 
 ## APK & Video Demo
-- [Download APK](Google Drive link)
-- [Watch Demo](Google Drive link)
-
+- [Download APK](https://drive.google.com/file/d/1f9r-sEU2Ap45uZj2586yPqTO9CSk7Yyd/view?usp=sharing)
+- [Watch Demo](https://drive.google.com/file/d/1vmURmoizYPGBC-GcJibh5kZDc0sUD4-C/view?usp=sharing)
 ## Contributors
 - S V V D Ganapathi
 
