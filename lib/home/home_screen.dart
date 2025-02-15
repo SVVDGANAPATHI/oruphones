@@ -2,9 +2,11 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:oruphones/bloc/auth/auth_bloc.dart';
 import 'package:oruphones/bloc/faq/faq_bloc.dart';
 import 'package:oruphones/home/dynamic_bottom_sheet.dart';
 import 'package:share_plus/share_plus.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -97,9 +99,19 @@ class _HomeScreenState extends State<HomeScreen> {
   // }
 
   @override
-  void initState() {
-    context.read<FaqBloc>().add(GetFaqDetails());
+  void initState(){
     super.initState();
+    context.read<FaqBloc>().add(GetFaqDetails());
+    getuser();
+
+  }
+
+  void getuser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool userStatus = prefs.getBool('isuser') ?? false;
+    setState(() {
+      isuser = userStatus;
+    });
   }
 
   @override
@@ -201,7 +213,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            'Rahul Sharma',
+                            'Ganesh',
                             style: Theme.of(context)
                                 .textTheme
                                 .displayMedium
@@ -824,7 +836,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       )),
                   child: IconButton(
                       onPressed: () {
-                         isUserOrNot();
+                        isUserOrNot();
                       },
                       icon: Icon(
                         Icons.favorite_outline,
@@ -965,7 +977,7 @@ class _HomeScreenState extends State<HomeScreen> {
     } else {
       showModalBottomSheet(
         shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.zero,
+          borderRadius: BorderRadius.zero,
         ),
         isScrollControlled: true,
         context: context,

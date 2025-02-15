@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oruphones/bloc/auth/auth_bloc.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -35,7 +36,24 @@ class _LoginScreenState extends State<LoginScreen> {
       body: BlocConsumer<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state is OtpSent) {
-            Navigator.pushNamed(context,'/verifyotp',arguments: _phoneController.text.toString());
+            Fluttertoast.showToast(
+              msg: 'OTP Sent Succesfully',
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.green,
+              textColor: Colors.white,
+            );
+            Navigator.pushNamed(context, '/verifyotp',arguments: _phoneController.text.toString());
+          }
+          else if(state is AuthError)
+          {
+            Fluttertoast.showToast(
+              msg: state.error,
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.BOTTOM,
+              backgroundColor: Colors.red,
+              textColor: Colors.white,
+            );
           }
         },
         builder: (context, state) {
@@ -92,6 +110,11 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 5.h),
                       TextFormField(
                         controller: _phoneController,
+                        onChanged: (value) {
+                          if (value.length == 10) {
+                            FocusScope.of(context).unfocus();
+                          }
+                        },
                         keyboardType: TextInputType.phone,
                         decoration: InputDecoration(
                           prefixIcon: Padding(
@@ -140,39 +163,39 @@ class _LoginScreenState extends State<LoginScreen> {
                 SizedBox(
                   height: 10.h,
                 ),
-                if(state is AuthLoading)
-                 CircularProgressIndicator()
+                if (state is AuthLoading)
+                  CircularProgressIndicator()
                 else
-                ElevatedButton(
-                    onPressed: () {
-                      //Navigator.pushNamed(context, '/verifyotp');
-                      final countryCode = int.tryParse('91');
-                      final mobileNumber = int.tryParse(_phoneController.text);
-                      if (countryCode == null || mobileNumber == null) {
-                        // Show an error if parsing fails
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text('Invalid input')),
-                        );
-                        return;
-                      }
-                      context.read<AuthBloc>().add(LoginRequested(countryCode: countryCode, phoneNumber: mobileNumber));
-                    },
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          'Next',
-                        ),
-                        SizedBox(
-                          width: 10.w,
-                        ),
-                        Icon(
-                          Icons.arrow_forward,
-                          color: Colors.white,
-                          size: 20.r,
-                        )
-                      ],
-                    ))
+                  ElevatedButton(
+                      onPressed: () {
+                        //Navigator.pushNamed(context, '/verifyotp');
+                        final countryCode = int.tryParse('91');
+                        final mobileNumber = int.tryParse(_phoneController.text);
+                        if (countryCode == null || mobileNumber == null) {
+                          // Show an error if parsing fails
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Invalid input')),
+                          );
+                          return;
+                        }
+                        context.read<AuthBloc>().add(LoginRequested(countryCode: countryCode, phoneNumber: mobileNumber));
+                      },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Next',
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Icon(
+                            Icons.arrow_forward,
+                            color: Colors.white,
+                            size: 20.r,
+                          )
+                        ],
+                      ))
               ],
             ),
           );

@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:oruphones/bloc/auth/auth_bloc.dart';
 import 'package:pinput/pinput.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class VerifyOtpScreen extends StatefulWidget {
   final String phonenumber;
@@ -72,8 +73,10 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
         ],
       ),
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) {
+        listener: (context, state) async {
           if (state is AuthAuthenticatedPartially) {
+             final SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setBool('isuser', true);
             Fluttertoast.showToast(
               msg: 'OTP Successfully Verified',
               toastLength: Toast.LENGTH_SHORT,
@@ -81,6 +84,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
               backgroundColor: Colors.green,
               textColor: Colors.white,
             );
+            // ignore: use_build_context_synchronously
             Navigator.pushReplacementNamed(context, '/customername');
           } else if (state is AuthAuthenticated) {
             Navigator.pushReplacementNamed(context, '/homescreen');

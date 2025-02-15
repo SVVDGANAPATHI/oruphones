@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,11 +15,15 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     // Move to MainScreen after 3 seconds
+    setuser();
     Timer(Duration(seconds: 3), () {
-      Navigator.pushNamed(
-        context,'/login'
-      );
+      Navigator.pushReplacementNamed(context, '/homescreen');
     });
+  }
+
+  void setuser() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('isuser', false);
   }
 
   @override

@@ -2,7 +2,7 @@ part of 'auth_bloc.dart';
 
 sealed class AuthState extends Equatable {
   const AuthState();
-  
+
   @override
   List<Object> get props => [];
 }
@@ -16,6 +16,12 @@ class OtpSent extends AuthState {}
 class AuthAuthenticated extends AuthState {}
 
 class AuthAuthenticatedPartially extends AuthState {}
+
+class NameChanged extends AuthState {}
+
+class UsernameLoading extends AuthState {}
+
+class UsernameLoaded extends AuthState {}
 
 class AuthError extends AuthState {
   final String error;

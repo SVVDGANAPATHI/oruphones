@@ -21,10 +21,20 @@ class VerifyOtp extends AuthEvent {
   final int otp;
   final int phonenumber;
   const VerifyOtp({
-    required this.phonenumber, 
+    required this.phonenumber,
     required this.otp,
   });
 
   @override
-  List<Object> get props => [otp,phonenumber];
+  List<Object> get props => [otp, phonenumber];
 }
+
+class UpdateUserName extends AuthEvent {
+  final String userName;
+  const UpdateUserName({required this.userName});
+
+  @override
+  List<Object> get props => [userName];
+}
+
+class IsUser extends AuthEvent {}
