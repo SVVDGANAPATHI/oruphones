@@ -21,7 +21,6 @@ class _DynamicBottomSheetState extends State<DynamicBottomSheet> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -35,7 +34,7 @@ class _DynamicBottomSheetState extends State<DynamicBottomSheet> {
               physics: NeverScrollableScrollPhysics(), // Disable swipe
               children: [
                 LoginBottomSheet(onNext: _goToNextPage),
-                OtpVerifyScreen(onNext: _goToNextPage),
+                OtpVerifyScreen(onNext: _goToNextPage,),
                 NameBottomSheet(),
               ],
             ),
