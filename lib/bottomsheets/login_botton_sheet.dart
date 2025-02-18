@@ -22,7 +22,7 @@ class _LoginBottomSheetState extends State<LoginBottomSheet> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is OtpSent) {
-           Fluttertoast.showToast(backgroundColor: Colors.green, toastLength: Toast.LENGTH_SHORT, msg: 'OTP Sent Successfully');
+          Fluttertoast.showToast(backgroundColor: Colors.green, toastLength: Toast.LENGTH_SHORT, msg: 'OTP Sent Successfully');
           widget.onNext();
         }
       },

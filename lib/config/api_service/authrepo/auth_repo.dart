@@ -1,4 +1,3 @@
-import 'package:logger/logger.dart';
 import 'package:oruphones/config/api_service/authrepo/auth_cred.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
